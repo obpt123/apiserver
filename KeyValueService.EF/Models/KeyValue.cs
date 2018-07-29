@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Service
+namespace Service.Models
 {
-    public class KeyValueInfo
+   public class KeyValue
     {
+        public Guid Id { get; set; }
 
         public string Key { get; set; }
 
         public string Value { get; set; }
-
     }
 }

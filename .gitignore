@@ -3,4 +3,4 @@ bin
 *.user
 obj
 packages
-Host/Services
+Host.WebApi/Services

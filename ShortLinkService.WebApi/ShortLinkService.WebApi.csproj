@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="set SERVICE=ShortLinkService&#xD;&#xA;set TARGET=$(SolutionDir)Host.WebApi\Services\%SERVICE%&#xD;&#xA;mkdir %TARGET%&#xD;&#xA;copy $(TargetDir) %TARGET%" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
+    <ProjectReference Include="..\SequenceService.Core\SequenceService.Core.csproj" />
+    <ProjectReference Include="..\ShortLinkService.Core\ShortLinkService.Core.csproj" />
+    <ProjectReference Include="..\System.Base\System.Base.csproj" />
+  </ItemGroup>
+
+</Project>
