@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
+    <ProjectReference Include="..\System.Base\System.Base.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

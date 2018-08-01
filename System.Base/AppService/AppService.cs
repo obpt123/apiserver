@@ -19,8 +19,5 @@ namespace System
         }
 
     }
-    public interface INeedService
-    {
 
-    }
 }

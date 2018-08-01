@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PrivilegeService.EF\PrivilegeService.EF.csproj" />
     <ProjectReference Include="..\System.Base\System.Base.csproj" />
   </ItemGroup>
 
