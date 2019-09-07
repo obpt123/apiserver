@@ -6,17 +6,17 @@ using System.Text;
 
 namespace ShortLinkService.WebApi
 {
-    [Route("/",Order =99999)]
-    public class ShortVisterController: Controller,INeedService
+    [Route("/s/",Order =99999)]
+    public class ShortVisterController: Controller
     {
-        [HttpGet("{key:alpha:length(3,8)}")]
+        IkeyValueService keyValueService;
+        [HttpGet("{key:alpha:length(3,10)}")]
         public ActionResult Get(string key)
         {
-            var keyValueService = this.Get<IkeyValueService>();
             var url = keyValueService.GetValue(key);
             if (!string.IsNullOrEmpty(url))
             {
-               return this.Redirect(url);
+               return this.RedirectPermanent(url);
             }
             else
             {

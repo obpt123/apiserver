@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -6,22 +8,30 @@ using System.Text;
 
 namespace Service
 {
-    public class KeyValueContext:DbContext,INeedConfig
+    [DbContextClass]
+    public class KeyValueContext:DbContext
     {
-        public KeyValueContext():base()
+        protected KeyValueContext()
         {
             
         }
+        public KeyValueContext(DbContextOptions option) :base(option)
+        {
+            //this.Model.FindEntityType("").GetKeys()
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.ApplyConfiguration(new KeyValueConfiguration());
+            
+
+
             base.OnModelCreating(modelBuilder);
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(this.GetConfig("EFContext:KeyValue:Connection"));
-          
+            
         }
         public DbSet<KeyValue> KeyValues { get; set; }
     }
+
+
+
+  
 }

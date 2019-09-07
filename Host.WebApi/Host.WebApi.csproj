@@ -6,11 +6,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,14 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PrivilegeService.EF\PrivilegeService.EF.csproj" />
-    <ProjectReference Include="..\System.Base\System.Base.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Services\KeyValueService\KeyValueService.WebApi.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\GoodsService.Core\GoodsService.Core.csproj" />
+    <ProjectReference Include="..\GoodsService.EF\GoodsService.EF.csproj" />
+    <ProjectReference Include="..\GoodsService.Entity.Impl\GoodsService.Entity.Impl.csproj" />
+    <ProjectReference Include="..\GoodsService.WebApi\GoodsService.WebApi.csproj" />
+    <ProjectReference Include="..\Host.Database.SqlServer\Host.Database.SqlServer.csproj" />
+    <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
+    <ProjectReference Include="..\KeyValueService.EF\KeyValueService.EF.csproj" />
+    <ProjectReference Include="..\KeyValueService.Entity.Impl\KeyValueService.Entity.Impl.csproj" />
+    <ProjectReference Include="..\KeyValueService.WebApi\KeyValueService.WebApi.csproj" />
+    <ProjectReference Include="..\YS.Ententions.NetCore.All\YS.Ententions.NetCore.All.csproj" />
+    <ProjectReference Include="..\YS.System.AspnetCore\YS.System.AspnetCore.csproj" />
   </ItemGroup>
 
 </Project>

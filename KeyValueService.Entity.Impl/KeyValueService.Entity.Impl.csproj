@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
+    <ProjectReference Include="..\KeyValueService.Entity\KeyValueService.Entity.csproj" />
+    <ProjectReference Include="..\YS.Extentions.Base\YS.Extentions.Base.csproj" />
+    <ProjectReference Include="..\YS.System.Base\YS.System.Base.csproj" />
+  </ItemGroup>
+
+</Project>

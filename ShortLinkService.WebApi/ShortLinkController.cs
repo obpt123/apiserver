@@ -8,15 +8,15 @@ using System.Text;
 namespace ShortLinkService.WebApi
 {
     [Route("api/[controller]")]
-    public class ShortLinkController : Controller, IShortLinkService, INeedService
+    public class ShortLinkController : Controller, IShortLinkService
     {
+        IkeyValueService keyValueService;
+        ISequenceService sequenceService;
         const string SequenceKey = "";
 
         [HttpPost("{url}")]
         public UrlInfo CreateUrlInfo(string url)
         {
-            var sequenceService = this.Get<ISequenceService>();
-            var keyValueService = this.Get<IkeyValueService>();
             var val = sequenceService.GetValue(SequenceKey);
             var base64 = val.ToString("X8");
             keyValueService.Set(base64, url);

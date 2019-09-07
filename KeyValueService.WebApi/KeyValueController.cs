@@ -7,14 +7,15 @@ using System.Text;
 
 namespace KeyValueService.WebApi
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
-    public class KeyValuesController : Controller, IkeyValueService, INeedService
+    public class KeyValuesController : Controller, IkeyValueService
     {
-
-        public KeyValuesController()
+        
+        IkeyValueService keyValueService;
+        public KeyValuesController(IkeyValueService keyValueService)
         {
-
+            this.keyValueService = keyValueService;
         }
         [HttpDelete("{key}")]
         public void Delete(string key)
@@ -24,14 +25,12 @@ namespace KeyValueService.WebApi
         [HttpGet("{key}")]
         public string GetValue(string key)
         {
-            var v = this.Get<IkeyValueService>().GetValue(key);
-            return v;
+            return this.keyValueService.GetValue(key);
         }
         [HttpPost("{key}")]
         public void Set(string key, [FromQuery]string value)
         {
-            var service = this.Get<IkeyValueService>();
-            service.Set(key, value);
+            this.keyValueService.Set(key, value);
         }
     }
 }

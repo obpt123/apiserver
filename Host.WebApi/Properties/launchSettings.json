@@ -19,7 +19,7 @@
     "Host.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/keyvalue/abc",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

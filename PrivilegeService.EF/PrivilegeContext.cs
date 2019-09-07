@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PrivilegeService.EF
 {
-    public class PrivilegeContext:DbContext,INeedConfig
+    public class PrivilegeContext:DbContext
     {
         public DbSet<FunctionInfo> Functions { get; set; }
         public DbSet<RoleFunction> RoleFunctions { get; set; }
@@ -15,7 +15,7 @@ namespace PrivilegeService.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(this.GetConfig("EFContext:KeyValue:Connection"));
+            //optionsBuilder.UseSqlServer(this.GetConfig("EFContext:KeyValue:Connection"));
 
         }
     }

@@ -8,6 +8,6 @@ namespace PrivilegeService.EF.Models
     {
         public int Id { get; set; }
         public string FunctionCode { get; set; }
-        public string RoleName { get; set; }
+        public string RoleUName { get; set; }
     }
 }

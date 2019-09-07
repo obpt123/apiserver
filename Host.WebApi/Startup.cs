@@ -14,126 +14,99 @@ using System.Runtime.Loader;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Internal;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using Service;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Host.WebApi
 {
+
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public static readonly LoggerFactory MyLoggerFactory
+    = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            LoggerFactory = loggerFactory;
+            this.RegisterDbContextHandlers();
         }
+        public void RegisterDbContextHandlers()
+        {
+            DbContextOptionsBuilderHandlers.Register("sqlserver", (initContext, builer) => {
+                builer.UseSqlServer(initContext.ConnectionString, (option) =>
+                {
+                    var migrationAssemblyName = initContext.GetMigrationAssemblyName();
+                    if (!string.IsNullOrEmpty(migrationAssemblyName))
+                    {
+                        option.MigrationsAssembly(migrationAssemblyName);
+                    }
 
+                }).UseLoggerFactory(MyLoggerFactory);
+            });
+            DbContextOptionsBuilderHandlers.Register("sqlite", (initContext, builder) =>
+            {
+                builder.UseSqlite(initContext.ConnectionString, (option) =>
+                {
+                    var migrationAssemblyName = initContext.GetMigrationAssemblyName();
+                    if (!string.IsNullOrEmpty(migrationAssemblyName))
+                    {
+                        option.MigrationsAssembly(migrationAssemblyName);
+                    }
+                }).UseLoggerFactory(MyLoggerFactory);
+            });
+        }
         public IConfiguration Configuration { get; }
-
+        public ILoggerFactory LoggerFactory { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            var mvc = services.AddMvc();
-            foreach (var ass in GetWebApiAssemblies(services))
+            var assemblies = new string[] {"*.ef","*.impl" };
+            services.AddAssemblies(assemblies, (assembly) =>
             {
-                mvc.AddApplicationPart(ass);
+                assembly.AppendOptions(services, Configuration)
+                        .AppendServices(services, Configuration)
+                        .AppendDbContexts(services, Configuration)
+                        .AppendLoadServices(services,Configuration);
 
-            }
+            }).AddMvc(mvcoption=> {
+                mvcoption.ModelBinderProviders.Insert(0, new System.AspnetCore.QueryModelBinderProvider());
 
-            AppService.Provider = new AppServiceProvider(services);
-            AppConfig.Provider = new AppConfigProvider(Configuration);
+            });
+
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                loggerFactory.AddDebug();
             }
-
+            app.ApplicationServices.MigrateDbContextDatabaseAsync("*.ef");
             app.UseMvc();
 
         }
 
 
-        private IEnumerable<Assembly> GetWebApiAssemblies(IServiceCollection services)
-        {
-            var env = services.BuildServiceProvider().GetService<IHostingEnvironment>();
-            var rootPath = System.IO.Path.Combine(env.ContentRootPath, "Services");
-            if (Directory.Exists(rootPath))
-            {
-                return from p in Directory.GetFiles(rootPath, "*.dll", SearchOption.AllDirectories)
-                       select Assembly.LoadFrom(p);
-            }
-            else
-            {
-                return Enumerable.Empty<Assembly>();
-            }
-
-        }
+       
 
     }
 
-    public class AppServiceProvider : IAppServiceProvider
-    {
-        IServiceProvider provider;
-        private Dictionary<string, string> types = new Dictionary<string, string>()
-        {
-            {
-                "Service.IkeyValueService,KeyValueService.Core",
-                "Service.Services.KeyValueService,KeyValueService.EF"
-            }
-        };
-        public AppServiceProvider(IServiceCollection services)
-        {
-            //var ty = typeof(Service.IkeyValueService);
-            foreach (var kv in types)
-            {
-                Type type = Type.GetType(kv.Key);
-                Type implType = Type.GetType(kv.Value);
-                ServiceDescriptor descriptor = new ServiceDescriptor(type, implType, ServiceLifetime.Singleton);
 
-                services.Add(descriptor);
-            }
-            this.provider = services.BuildServiceProvider();
-
-
-            
-
-        }
-        public T Get<T>(Type hostType, bool required = true)
-        {
-            if (required)
-            {
-                return provider.GetRequiredService<T>();
-            }
-            else
-            {
-                return provider.GetService<T>();
-            }
-
-        }
-
-
-    }
-
-    public class AppConfigProvider : IAppConfigProvider
-    {
-        private IConfiguration configuration;
-        public AppConfigProvider(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
-        public string GetConfig(Type hostType, string configKey, bool required = true)
-        {
-            string val = configuration[configKey];
-            return val;
-        }
-
-        public string GetConnString(Type hostType, string connectionName)
-        {
-            return configuration.GetConnectionString(connectionName);
-        }
-    }
 
 
 }
+
+
+
+
+

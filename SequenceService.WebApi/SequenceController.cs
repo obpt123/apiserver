@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Service
 {
     [Route("api/[controller]")]
-    public class SequenceController : Controller, ISequenceService
+    public class SequenceController : Controller
     {
         [HttpGet("{key}")]
         public long GetValue(string key)

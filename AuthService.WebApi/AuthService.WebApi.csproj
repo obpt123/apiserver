@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AuthService.Core\AuthService.Core.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="set SERVICE=AuthService&#xD;&#xA;set TARGET=$(SolutionDir)Host.WebApi\Services\%SERVICE%&#xD;&#xA;mkdir %TARGET%&#xD;&#xA;copy $(TargetDir) %TARGET%&#xD;&#xA;echo copy %SERVICE% Success" />
+  </Target>
 
 </Project>

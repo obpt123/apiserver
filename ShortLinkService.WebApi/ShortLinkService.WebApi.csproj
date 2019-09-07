@@ -19,7 +19,6 @@
     <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
     <ProjectReference Include="..\SequenceService.Core\SequenceService.Core.csproj" />
     <ProjectReference Include="..\ShortLinkService.Core\ShortLinkService.Core.csproj" />
-    <ProjectReference Include="..\System.Base\System.Base.csproj" />
   </ItemGroup>
 
 </Project>

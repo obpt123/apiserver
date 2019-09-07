@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\YS.System.Base\YS.System.Base.csproj" />
+  </ItemGroup>
+
 </Project>

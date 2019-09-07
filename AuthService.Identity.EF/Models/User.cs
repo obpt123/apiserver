@@ -11,10 +11,15 @@ namespace AuthService.Identity.EF.Models
         {
             this.Id = Guid.NewGuid().ToString();
         }
-
+        /// <summary>
+        /// 用户昵称
+        /// </summary>
         [PersonalData]
-        public string FullName { get; set; }
-
-        
+        public string NickName { get; set; }
+        /// <summary>
+        /// 用户头像
+        /// </summary>
+        [PersonalData]
+        public string Avatar { get; set; }
     }
 }

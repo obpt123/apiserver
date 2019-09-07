@@ -10,16 +10,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
-    <ProjectReference Include="..\System.Base\System.Base.csproj" />
+    <ProjectReference Include="..\KeyValueService.Entity\KeyValueService.Entity.csproj" />
+    <ProjectReference Include="..\YS.Extentions.Base\YS.Extentions.Base.csproj" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="set SERVICE=KeyValueService&#xD;&#xA;set TARGET=$(SolutionDir)Host.WebApi\Services\%SERVICE%&#xD;&#xA;mkdir %TARGET%&#xD;&#xA;copy $(TargetDir) %TARGET%&#xD;&#xA;echo copy %KeyValueService% Success" />
-  </Target>
 
 </Project>

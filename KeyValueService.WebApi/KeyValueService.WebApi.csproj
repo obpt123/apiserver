@@ -11,11 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KeyValueService.Core\KeyValueService.Core.csproj" />
-    <ProjectReference Include="..\System.Base\System.Base.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="set SERVICE=KeyValueService&#xD;&#xA;set TARGET=$(SolutionDir)Host.WebApi\Services\%SERVICE%&#xD;&#xA;mkdir %TARGET%&#xD;&#xA;copy $(TargetDir) %TARGET%&#xD;&#xA;echo copy %KeyValueService% Success" />
+    <Exec Command="set SERVICE=KeyValueService&#xD;&#xA;set TARGET=$(SolutionDir)Host.WebApi\Services\%SERVICE%&#xD;&#xA;mkdir %TARGET%&#xD;&#xA;copy $(TargetDir) %TARGET%&#xD;&#xA;echo copy %SERVICE% Success" />
   </Target>
 
 </Project>

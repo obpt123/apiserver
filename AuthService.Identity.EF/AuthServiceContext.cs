@@ -8,18 +8,14 @@ using System.Text;
 
 namespace AuthService.Identity.EF
 {
+    [DbContextClass()]
     public class AuthServiceContext: IdentityDbContext<User, Role, string>
     {
-        public AuthServiceContext()
+        protected AuthServiceContext()
         {
         }
         public AuthServiceContext(DbContextOptions options):base(options)
         {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

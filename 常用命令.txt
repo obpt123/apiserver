@@ -1,0 +1,4 @@
+
+***Ç¨ÒÆ
+
+Add-Migration Init -Context Service.KeyValueContext -Project KeyValueService.EF.Migrations.SqlServer
